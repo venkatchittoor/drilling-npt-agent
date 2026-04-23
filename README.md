@@ -33,7 +33,7 @@ The intelligence is not in the sensors. It is in the reasoning about what the se
 
 ## The Domain Knowledge Moat
 
-The system prompt that drives this agent encodes 20 years of offshore directional drilling experience across the Gulf of Mexico, North Sea, and Middle East. It is not a generic anomaly detection prompt — it is a structured expert knowledge base covering:
+The system prompt that drives this agent encodes 20 years of offshore directional drilling experience across the Gulf of Mexico and Middle East. It is not a generic anomaly detection prompt — it is a structured expert knowledge base covering:
 
 **NPT signature library** — the exact parameter combination signatures for each failure mode, including which signals confirm a hypothesis and which signals rule out alternative explanations:
 - SPP dropping + SPM increasing + pit volume increasing + torque stable = washout (fluid escaping uphole)
@@ -214,19 +214,20 @@ The sensor data simulates an offshore directional well with a 45-degree tangent 
 
 | Parameter | Description |
 |---|---|
-| `wob_tons` | Weight on Bit |
+| `wob_klbs` | Weight on Bit (1,000 lbs) |
 | `rpm` | Rotary speed |
-| `torque_knm` | Rotation resistance |
+| `torque_ftlbs` | Rotation resistance (ft-lbs) |
 | `torque_variance` | Rolling variance — twist-off fatigue indicator |
 | `hookload_tons` | Surface string weight |
 | `delta_hookload_tons` | Computed overpull vs expected |
 | `overpull_threshold` | Dynamic — 10% of hookload (scales with depth) |
 | `spp_bar` | Standpipe pressure |
-| `rop_m_hr` | Rate of penetration |
+| `rop_ft_hr` | Rate of penetration (ft/hr) |
 | `ecd_sg` | Equivalent circulating density |
-| `flow_rate_lpm` | Drilling fluid flow rate |
+| `flow_rate_gal_min` | Drilling fluid flow rate (gal/min) |
 | `spm` | Pump strokes per minute |
 | `pit_volume_m3` | Mud pit volume — washout discriminator |
+| `depth_ft` | Measured depth (feet) |
 | `operation_state` | DRILLING / CONNECTION / REAMING / TRIPPING |
 
 Four NPT anomaly windows are injected as **trends**, not threshold spikes — because real NPT events develop gradually, and the agent's value is catching them in the early phase, not after they have fully developed.
@@ -363,4 +364,4 @@ The answer is encoded in the system prompt.
 
 ---
 
-*Built by Venkat Chittoor in collaboration with Claude (Anthropic) — combining 20 years of offshore drilling engineering with modern agentic AI to solve a problem the industry knows well but hasn't solved with this approach. The future belongs to those who adapt and adopt.*
+*Built by Venkat Chittoor in collaboration with Claude (Anthropic) — combining 20 years of offshore drilling engineering with modern agentic AI to bring domain expertise and AI reasoning together in a way that is practical, explainable, and deployable. The future belongs to those who adapt and adopt.*
