@@ -6,13 +6,13 @@
 
 ## The Problem That Costs the Industry Billions
 
-NPT — Non-Productive Time — is the single biggest cost driver in offshore drilling operations. A stuck pipe event on a deepwater well costs $500K–$2M per day. A twist-off requiring fishing operations can run $5M and weeks of lost time. A washout that goes undetected destroys the drill bit and contaminates the wellbore.
+NPT — Non-Productive Time — is one of the largest cost drivers in offshore drilling operations. Industry data shows NPT accounts for 20–30% of total drilling time, with stuck pipe incidents alone responsible for over $250 million in annual industry losses. Deepwater rigs in the Gulf of Mexico operate at day rates of $600K–$800K, meaning every day of stuck pipe or fishing operations directly translates to that cost — plus crew, vessels, and lost production. A twist-off requiring extended fishing operations can run into multiple millions and weeks of lost time. A washout that goes undetected destroys the drill bit and contaminates the wellbore.
 
 The data to prevent most of these events exists. Weight on bit, torque, hookload, standpipe pressure, rate of penetration — streaming in real time from every sensor on the rig floor. The patterns that precede each NPT event are well understood by experienced drilling engineers.
 
 The gap is not data. The gap is attention.
 
-A driller monitoring a screen at 3AM in the Gulf of Mexico, 45 degrees into a tangent section at 4,000 meters, cannot simultaneously track nine parameters, compute their interactions, compare them to formation baselines, and distinguish a washout from a surface leak from a pump change — all in real time, every two minutes, for a 12-hour shift.
+A driller monitoring a screen at 3AM in the Gulf of Mexico, 45 degrees into a tangent section at 13,000 feet, cannot simultaneously track nine parameters, compute their interactions, compare them to formation baselines, and distinguish a washout from a surface leak from a pump change — all in real time, every two minutes, for a 12-hour shift.
 
 This agent does exactly that.
 
@@ -221,7 +221,7 @@ The sensor data simulates an offshore directional well with a 45-degree tangent 
 | `hookload_tons` | Surface string weight |
 | `delta_hookload_tons` | Computed overpull vs expected |
 | `overpull_threshold` | Dynamic — 10% of hookload (scales with depth) |
-| `spp_bar` | Standpipe pressure |
+| `spp_psi` | Standpipe pressure (psi) |
 | `rop_ft_hr` | Rate of penetration (ft/hr) |
 | `ecd_sg` | Equivalent circulating density |
 | `flow_rate_gal_min` | Drilling fluid flow rate (gal/min) |
