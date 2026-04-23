@@ -296,10 +296,10 @@ python run_agent.py --anomaly-only --no-write
 
 ```sql
 -- Full alert history for this well
-SELECT timestamp, depth_ft, alert_severity, npt_type,
+SELECT timestamp, depth_m, alert_severity, npt_type,
        confidence, intervention_window, primary_diagnosis
 FROM workspace.drilling.npt_alerts
-ORDER BY depth_ft;
+ORDER BY depth_m;
 
 -- Did the agent catch the right events?
 SELECT npt_type, ground_truth_label, confidence, alert_severity,
@@ -309,14 +309,14 @@ SELECT npt_type, ground_truth_label, confidence, alert_severity,
 FROM workspace.drilling.npt_alerts;
 
 -- Which NPT type appeared at greatest depth (highest risk zone)?
-SELECT npt_type, MAX(depth_ft) as max_depth_ft,
+SELECT npt_type, MAX(depth_m) as max_depth_m,
        COUNT(*) as alert_count
 FROM workspace.drilling.npt_alerts
-GROUP BY npt_type ORDER BY max_depth_ft DESC;
+GROUP BY npt_type ORDER BY max_depth_m DESC;
 
 -- Intervention window status across all alerts
 SELECT intervention_window, COUNT(*) as count,
-       AVG(depth_ft) as avg_depth_ft
+       AVG(depth_m) as avg_depth_m
 FROM workspace.drilling.npt_alerts
 GROUP BY intervention_window;
 ```
