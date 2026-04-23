@@ -4,9 +4,9 @@
 
 ---
 
-## The Problem That Costs the Industry Billions
+## The Problem That Costs the Industry Hundreds of Millions Annually
 
-NPT — Non-Productive Time — is one of the largest cost drivers in offshore drilling operations. Industry data shows NPT accounts for 20–30% of total drilling time, with stuck pipe incidents alone responsible for over $250 million in annual industry losses. Deepwater rigs in the Gulf of Mexico operate at day rates of $600K–$800K, meaning every day of stuck pipe or fishing operations directly translates to that cost — plus crew, vessels, and lost production. A twist-off requiring extended fishing operations can run into multiple millions and weeks of lost time. A washout that goes undetected destroys the drill bit and contaminates the wellbore.
+NPT — Non-Productive Time — is one of the largest cost drivers in offshore drilling operations. Industry data shows NPT accounts for 20–30% of total drilling time, with stuck pipe incidents alone responsible for over $250 million in annual industry losses. A single high-tech platform in the Gulf of Mexico can incur over $120 million in NPT costs per year. Deepwater rigs in the Gulf of Mexico operate at day rates of $600K–$800K, meaning every day of stuck pipe or fishing operations directly translates to that cost — plus crew, vessels, and lost production. A twist-off requiring extended fishing operations can run into multiple millions and weeks of lost time. A washout that goes undetected destroys the drill bit and contaminates the wellbore.
 
 The data to prevent most of these events exists. Weight on bit, torque, hookload, standpipe pressure, rate of penetration — streaming in real time from every sensor on the rig floor. The patterns that precede each NPT event are well understood by experienced drilling engineers.
 
@@ -20,7 +20,7 @@ This agent does exactly that.
 
 ## Why This Is Different From a Threshold Alarm
 
-Every rig has threshold alarms. Torque above 900 kNm — alarm fires. Standpipe pressure below 200 bar — alarm fires. These alarms fire constantly, correctly and incorrectly, until drillers learn to ignore them.
+Every rig has threshold alarms. Torque above 660,000 ft-lbs — alarm fires. Standpipe pressure below 2,900 psi — alarm fires. These alarms fire constantly, correctly and incorrectly, until drillers learn to ignore them.
 
 This agent does not alarm on thresholds. It reasons about **parameter interactions** and **trends** in the context of **operational state** — exactly the way an experienced drilling engineer thinks.
 
@@ -226,7 +226,7 @@ The sensor data simulates an offshore directional well with a 45-degree tangent 
 | `ecd_sg` | Equivalent circulating density |
 | `flow_rate_gal_min` | Drilling fluid flow rate (gal/min) |
 | `spm` | Pump strokes per minute |
-| `pit_volume_m3` | Mud pit volume — washout discriminator |
+| `pit_volume_bbls` | Mud pit volume in barrels — washout discriminator |
 | `depth_ft` | Measured depth (feet) |
 | `operation_state` | DRILLING / CONNECTION / REAMING / TRIPPING |
 
@@ -296,10 +296,10 @@ python run_agent.py --anomaly-only --no-write
 
 ```sql
 -- Full alert history for this well
-SELECT timestamp, depth_m, alert_severity, npt_type,
+SELECT timestamp, depth_ft, alert_severity, npt_type,
        confidence, intervention_window, primary_diagnosis
 FROM workspace.drilling.npt_alerts
-ORDER BY depth_m;
+ORDER BY depth_ft;
 
 -- Did the agent catch the right events?
 SELECT npt_type, ground_truth_label, confidence, alert_severity,
@@ -309,14 +309,14 @@ SELECT npt_type, ground_truth_label, confidence, alert_severity,
 FROM workspace.drilling.npt_alerts;
 
 -- Which NPT type appeared at greatest depth (highest risk zone)?
-SELECT npt_type, MAX(depth_m) as max_depth,
+SELECT npt_type, MAX(depth_ft) as max_depth_ft,
        COUNT(*) as alert_count
 FROM workspace.drilling.npt_alerts
-GROUP BY npt_type ORDER BY max_depth DESC;
+GROUP BY npt_type ORDER BY max_depth_ft DESC;
 
 -- Intervention window status across all alerts
 SELECT intervention_window, COUNT(*) as count,
-       AVG(depth_m) as avg_depth
+       AVG(depth_ft) as avg_depth_ft
 FROM workspace.drilling.npt_alerts
 GROUP BY intervention_window;
 ```
@@ -327,7 +327,7 @@ GROUP BY intervention_window;
 
 Standard approach: train a classification model on historical drilling data, deploy it to flag anomalies against learned patterns.
 
-The problem: labeled historical NPT data is scarce, proprietary, and well-specific. A model trained on North Sea wells may not generalize to Gulf of Mexico geology. Retraining requires data science cycles and labeled datasets.
+The problem: labeled historical NPT data is scarce, proprietary, and well-specific. A model trained on one basin's geology may not generalize to another. Retraining requires data science cycles and labeled datasets.
 
 This agent uses a different approach: encode domain expertise directly into the reasoning system. The knowledge travels with the agent — no training data required, no retraining when moving to a new well or formation. Update the system prompt with formation-specific context and the agent adapts immediately.
 
